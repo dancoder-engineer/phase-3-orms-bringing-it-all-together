@@ -1,3 +1,9 @@
+require 'bundler'
+Bundler.require
+
+DB = { conn: SQLite3::Database.new("../db/dogs.db") }
+
+
 class Dog
 
     attr_reader :name
@@ -92,7 +98,12 @@ class Dog
         SQL
 
         row=DB[:conn].execute(sql, id)
-        self.new_from_db(row[0])
+        self.new_from_db(row)
     end
 
 end
+
+Dog.create_table
+Dog.create(name: "Dave", breed: "poodle")
+Dog.create(name: "Kevin", breed: "shepard")
+pp Dog.find(1)
